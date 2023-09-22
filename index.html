@@ -11,31 +11,50 @@
     </style>
 </head>
 <body>
-    <form action="#" method="POST">
-        <label for="firstname">Ime:</label>
-        <input type="text" name="firstname"><br><br>
-
-        <label for="gender">Spol:</label>
-        <input type="radio" name="gender" value="male" checked> Muški
-        <input type="radio" name="gender" value="female"> Ženski<br><br>
-
-        <input type="checkbox" name="vehicle1" value="Bike"> Imam bicikl
-        <input type="checkbox" name="vehicle2" value="Car"> Imam auto<br><br>
-
-        <label for="cars">Vozim:</label>
-        <select name="cars">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="kia">Kia</option>
-            <option value="hyundai">Hyundai</option>
-            <option value="ford">Ford</option>
-        </select><br><br>
-        
-        <label for="message">Ostavi komentar:</label>
-        <textarea name="message"></textarea><br><br>
-
-        <button type="submit">Pošalji!</button>
-        <button type="reset">Resetiraj</button>
-    </form>
+    <table>
+        <form action="#" method="POST">
+            <tr>
+                <td>Ime:</td>
+                <td><input type="text" name="firstName"></td>
+            </tr>
+            <tr>
+                <td>Prezime:</td>
+                <td><input type="text" name="lastName"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" name="email"></td>
+            </tr>
+            <tr>
+                <td>Država:</td>
+                <td>
+                    <select name="country">
+                        <option value="HR">Hrvatska</option>
+                        <option value="SI">Slovenija</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Spol:</td>
+                <td>
+                    <input type="radio" name="gender" value="male"> Muški
+                    <input type="radio" name="gender" value="female"> Ženski
+                </td>
+            </tr>
+            <tr>
+                <td>Zanima me:</td>
+                <td>
+                    <input type="radio" name="hoby" value="swimming"> Plivanje
+                    <input type="radio" name="hoby" value="climbing"> Penjanje
+                    <input type="radio" name="hoby" value="programming"> Programiranje
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">Pošalji!</button>
+                </td>
+            </tr>
+        </form>
+    </table>
 </body>
 </html>
