@@ -1,10 +1,24 @@
 <?php
 
-$name = $argv[1];
-$anotherName = &$name;
+// variablies with different data types
+$integer = 10;
+$float = 10.10;
+$string = "Hello World";
+$boolean = false;
 
+// print the variables
+echo $integer, "\n", $float, "\n", $string, "\n", var_export($boolean, true), "\n";
 
-$name = 'Ivan Mandic';
+// define a constant
+const PI = 3.14;
+echo PI, "\n";
 
-echo "Hello, $name\n";
-echo "Hello, $anotherName\n";
+// define two variables as references to the same value
+$a = 5;
+$b = &$a;
+
+echo $b, "\n";
+
+$a = 10;
+
+echo $b, "\n";
