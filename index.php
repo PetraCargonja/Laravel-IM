@@ -1,25 +1,22 @@
 <?php
 
-// Definiranje varijabli
-$a = 10;
-$b = 5;
-$c = 'Algebra';
-$d = 'Backend Developer';
-// Ispis rezultata aritmetičkih operatora
-echo $a + $b;
-echo $a - $b;
-echo $a * $b;
-echo $a / $b;
-echo $a % $b;
-// Konkatenacija
-$f = $c.'-'.$d;
-echo $f;
-// Kombinirani operator dodjele
-$a += $b;
-echo $a;
-// Uperator usporedbe (veće od)
-var_dump($a > $b);
-// Operator inkrementa
-echo ++$a;
-// Operator dekrementa
-echo --$b;
+$emptyArray = [
+    'name' => 'John',
+    'surname' => 'Doe',
+    'age' => 50,
+    'skills' => ['PHP', 'MySQL', 'JavaScript'],
+    'address' => [
+        'street' => 'Main Street',
+        'number' => '10',
+        'city' => 'New York',
+        'country' => 'USA'
+    ]
+];
+
+$emptyArray2 = [1, 2, 3];
+$emptyArray3 = [4, 5, 6];
+
+
+var_dump(
+    array_merge($emptyArray2, $emptyArray3)
+);
