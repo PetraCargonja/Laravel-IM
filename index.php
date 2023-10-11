@@ -1,22 +1,53 @@
 <?php
 
-$peopleJson = file_get_contents('people.json');
+function getHtmlTable($students)
+{
+    $tableHtml = '<table border="1">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Godine</th>
+            <th>Email</th>
+            <th>Telefon</th>
+        </tr>
+    </thead>
+    <tbody>';
 
-var_dump($peopleJson);
+    foreach ($students as $student) {
+        $tableHtml .= '<tr>
+                <td>' . $student['name'] . '</td>
+                <td>' . $student['surname'] . '</td>
+                <td>' . $student['age'] . '</td>
+                <td>' . $student['email'] . '</td>
+                <td>' . $student['phone'] . '</td>
+            </tr>';
+    }
 
-$people = json_decode($peopleJson, true);
+    $tableHtml .= '</tbody></table>';
 
-$people[] = [
-    'name' => 'Marko',
+    return $tableHtml;
+}
+
+$studentsJson = file_get_contents('polaznici.json');
+$students = json_decode($studentsJson, true);
+
+echo getHtmlTable($students);
+echo '<br>';
+
+$students[] = [
+    'name' => 'Iva',
+    'surname' => 'Ivic',
     'age' => 25,
-    'gender' => 'male',
-    'skills' => ['PHP', 'MySQL', 'JavaScript'],
-    'isMarried' => false,
-    'weight' => 80.5
+    'email' => 'iva.ivic@algebra.hr',
+    'phone' => '091 123 4567'
 ];
 
-$peopleJson = json_encode($people);
+$studentsJson = json_encode($students);
 
-var_dump(
-    file_put_contents('people.json', $peopleJson)
-);
+file_put_contents('polaznici.json', $studentsJson);
+
+$studentsJson = file_get_contents('polaznici.json');
+$students = json_decode($studentsJson, true);
+
+echo getHtmlTable($students);
