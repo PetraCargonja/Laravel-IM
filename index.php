@@ -1,18 +1,22 @@
 <?php
 
-function addNumberToSum($number)
-{
-    static $sum = 0;
+$peopleJson = file_get_contents('people.json');
 
-    $sum += $number;
+var_dump($peopleJson);
 
-    return $sum;
-}
+$people = json_decode($peopleJson, true);
 
-$foo = 'addNumberToSum';
+$people[] = [
+    'name' => 'Marko',
+    'age' => 25,
+    'gender' => 'male',
+    'skills' => ['PHP', 'MySQL', 'JavaScript'],
+    'isMarried' => false,
+    'weight' => 80.5
+];
 
-echo $foo(rand(1, 10)), "\n";
-echo $foo(rand(1, 10)), "\n";
-echo $foo(rand(1, 10)), "\n";
-echo $foo(rand(1, 10)), "\n";
-echo $foo(rand(1, 10)), "\n";
+$peopleJson = json_encode($people);
+
+var_dump(
+    file_put_contents('people.json', $peopleJson)
+);
