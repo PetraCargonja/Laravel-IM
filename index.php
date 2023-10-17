@@ -6,12 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="app.php">
-        <label for="firstname">Ime</label>
-        <input type="text" name="username" />
-        <br><br>
-        <label for="lastname">Prezime</label>
-        <input type="text" name="lastname" />
+    <form action="app.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
         <br><br>
         <input type="submit" value="Pošalji" />
     </form>
