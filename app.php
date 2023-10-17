@@ -1,13 +1,8 @@
 <?php
 
-if (empty($_POST)) {
-    echo 'Nema podataka za obradu';
+if (empty($_GET)) {
+    echo 'Nema podataka';
     die();
 }
 
-if (!isset($_POST['username']) || !isset($_POST['lastname'])) {
-    echo 'Niste unijeli sve podatke';
-    die();
-}
-
-echo "ime: {$_POST['username']}, prezime: {$_POST['lastname']}";
+echo 'Hello, ' . $_GET['name'];

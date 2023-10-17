@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="app.php" method="post">
+    <form action="app.php">
         <label for="firstname">Ime</label>
         <input type="text" name="username" />
         <br><br>
