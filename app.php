@@ -1,5 +1,13 @@
 <?php
 
-echoHelloWorld();
+function dumpPost()
+{
+    var_dump(
+        $_POST
+    );
+}
 
-echo $foo, "\n";
+if (!empty($_POST)) {
+    dumpPost();
+    exit;
+}
