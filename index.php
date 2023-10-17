@@ -7,13 +7,13 @@
 </head>
 <body>
     <form action="app.php" method="post">
-        <label for="username">Username</label>
+        <label for="firstname">Ime</label>
         <input type="text" name="username" />
-        <label for="password">Password</label>
-        <input type="password" name="password" />
-        <label for="remember_me">Remember me:</label>
-        <input type="checkbox" name="remember_me">
-        <input type="submit" value="Login" />
+        <br><br>
+        <label for="lastname">Prezime</label>
+        <input type="text" name="lastname" />
+        <br><br>
+        <input type="submit" value="Pošalji" />
     </form>
 </body>
 </html>

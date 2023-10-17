@@ -1,13 +1,13 @@
 <?php
 
-function dumpPost()
-{
-    var_dump(
-        $_POST
-    );
+if (empty($_POST)) {
+    echo 'Nema podataka za obradu';
+    die();
 }
 
-if (!empty($_POST)) {
-    dumpPost();
-    exit;
+if (!isset($_POST['username']) || !isset($_POST['lastname'])) {
+    echo 'Niste unijeli sve podatke';
+    die();
 }
+
+echo "ime: {$_POST['username']}, prezime: {$_POST['lastname']}";
