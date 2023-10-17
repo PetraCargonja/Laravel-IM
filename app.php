@@ -5,4 +5,9 @@ if (empty($_GET)) {
     die();
 }
 
+if (empty($_GET['name'])) {
+    echo 'Nema imena';
+    die();
+}
+
 echo 'Hello, ' . $_GET['name'];
