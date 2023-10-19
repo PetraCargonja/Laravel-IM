@@ -1,11 +1,7 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-$_SESSION['name'] = 'John Doe';
+setcookie('color', 'red', time() + 3600, secure: true);
 
 var_dump(
-    $_SESSION
+    $_COOKIE
 );
