@@ -1,49 +1,125 @@
 <?php
 
-if (empty($_FILES['file'])) {
-    die('Niste odabrali datoteku!');
-}
+class Person
+{
+    protected string $name;
 
-$file = $_FILES['file'];
+    protected int $years;
 
-if ($file['error'] !== UPLOAD_ERR_OK) {
-    die('Došlo je do greške prilikom prijenosa datoteke!');
-}
+    public function setName(string $name) 
+    {
+        $this->name = $name;
+    }
 
-$mimeTypes = [
-    'png' => 'image/png',
-    'jpe' => 'image/jpeg',
-    'jpeg' => 'image/jpeg',
-    'jpg' => 'image/jpeg',
-    'gif' => 'image/gif',
-    'bmp' => 'image/bmp',
-    'ico' => 'image/vnd.microsoft.icon',
-    'tiff' => 'image/tiff',
-    'tif' => 'image/tiff',
-    'svg' => 'image/svg+xml',
-    'svgz' => 'image/svg+xml'
-];
+    public function getName() 
+    {
+        return $this->name;
+    }
 
-if (!in_array($file['type'], $mimeTypes)) {
-    die('Datoteka nije slika!');
-}
+    public function setYears(int $years) 
+    {
+        $this->years = $years;
+    }
 
-$uploadDirectory = __DIR__ . '/uploads/';
-
-if (!file_exists($uploadDirectory)) {
-    if (!mkdir($uploadDirectory)) {
-        die('Došlo je do greške prilikom kreiranja direktorija!');
+    public function getYears() 
+    {
+        return $this->years;
     }
 }
 
-$uploadFileName = $uploadDirectory . basename($file['name']);
+class Teacher extends Person
+{
+    private string $title;
 
-if (file_exists($uploadFileName)) {
-    die('Datoteka već postoji!');
+    public function setTitle(string $title) 
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle() 
+    {
+        return $this->title;
+    }
 }
 
-if (!move_uploaded_file($file['tmp_name'], $uploadFileName)) {
-    die('Došlo je do greške prilikom spremanja datoteke!');
+class Student extends Person
+{
+    public function printInfo() 
+    {
+        echo "Ime: {$this->name}, godine: {$this->years} \n";
+    }
 }
 
-echo 'Datoteka je uspješno spremljena!';
+class Group
+{
+    private const MAX_NUMBER_OF_STUDENTS = 5;
+
+    private string $name;
+    private array $students;
+    private Teacher $teacher;
+
+    public function printInfo() 
+    {
+        echo "Ime grupe: $this->name \n";
+        echo "Polaznici: \n";
+        foreach ($this->students as $student) {
+            $student->printInfo();
+        }
+        echo "Broj polaznika: {$this->getNumberOfStudents()} \n";
+        echo "Predavac: {$this->teacher->getName()} \n";
+        echo "Titula: {$this->teacher->getTitle()} \n";
+        echo "Broj godina: {$this->teacher->getYears()} \n";
+    }
+
+    public function setName(string $name) 
+    {
+        $this->name = $name;
+    }
+
+    public function setTeacher(Teacher $teacher) 
+    {
+        $this->teacher = $teacher;
+    }
+
+    public function addStudent(Student $student) 
+    {
+        if ($this->getNumberOfStudents() >= self::MAX_NUMBER_OF_STUDENTS) {
+            return;
+        }
+
+        $this->students[] = $student;
+    }
+
+    public function getNumberOfStudents() 
+    {
+        return count($this->students);
+    }
+}
+
+$group = new Group();
+$group->setName('OL-OBE_DEV_H-04/23');
+
+$teacher = new Teacher();
+$teacher->setName('Marko Markovic');
+$teacher->setTitle('Senior Developer');
+$teacher->setYears(30);
+
+$group->setTeacher($teacher);
+
+$marko = new Student();
+$marko->setName('Marko Markovic');
+$marko->setYears(25);
+
+$ivan = new Student();
+$ivan->setName('Ivan Ivic');
+$ivan->setYears(23);
+
+$petar = new Student();
+$petar->setName('Petar Peric');
+$petar->setYears(24);
+
+$group->addStudent($marko);
+$group->addStudent($ivan);
+$group->addStudent($petar);
+
+$group->printInfo();
