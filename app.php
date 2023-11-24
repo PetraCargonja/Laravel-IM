@@ -2,9 +2,16 @@
 
 class Person
 {
-    protected string $name;
+    public function __construct(
+        protected string $name, 
+        protected int $years = 18
+        ) 
+    {}
 
-    protected int $years;
+    public function __destruct()
+    {
+        echo "Objekt je unisten \n";
+    }
 
     public function setName(string $name) 
     {
@@ -29,7 +36,12 @@ class Person
 
 class Teacher extends Person
 {
-    private string $title;
+    public function __construct(
+        string $name, int $years = 18, private string $title
+        )
+    {
+        parent::__construct($name, $years);
+    }
 
     public function setTitle(string $title) 
     {
@@ -55,8 +67,12 @@ class Group
     private const MAX_NUMBER_OF_STUDENTS = 5;
 
     private string $name;
-    private array $students;
-    private Teacher $teacher;
+    private array $students = [];
+
+    public function __construct(
+        private Teacher $teacher = new Teacher('Ana Anic', 28, 'Senior Developer')
+        )
+    {}
 
     public function printInfo() 
     {
@@ -99,24 +115,9 @@ class Group
 $group = new Group();
 $group->setName('OL-OBE_DEV_H-04/23');
 
-$teacher = new Teacher();
-$teacher->setName('Marko Markovic');
-$teacher->setTitle('Senior Developer');
-$teacher->setYears(30);
-
-$group->setTeacher($teacher);
-
-$marko = new Student();
-$marko->setName('Marko Markovic');
-$marko->setYears(25);
-
-$ivan = new Student();
-$ivan->setName('Ivan Ivic');
-$ivan->setYears(23);
-
-$petar = new Student();
-$petar->setName('Petar Peric');
-$petar->setYears(24);
+$marko = new Student(name: 'Marko Markovic', years: 23);
+$ivan = new Student('Ivan Ivic');
+$petar = new Student('Petar Peric');
 
 $group->addStudent($marko);
 $group->addStudent($ivan);
