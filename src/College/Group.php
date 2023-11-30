@@ -70,4 +70,9 @@ class Group
     {
         return count($this->students);
     }
+
+    public function getStudents() 
+    {
+        return $this->students;
+    }
 }

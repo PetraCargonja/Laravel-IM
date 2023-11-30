@@ -2,21 +2,17 @@
 
 namespace App;
 
+use App\College\Exception\AccessDeniedException;
+use App\College\Exception\OnlineRoomCapacityException;
 use App\Common\Car;
 use App\College\Group;
 use App\College\OnlineRoom;
 use App\College\OnlineRoomTool;
 use App\College\Student;
-use App\Common\Group as CommonGroup;
+use Exception;
+use RuntimeException;
 
 require __DIR__ . '/vendor/autoload.php';
-
-$group = new CommonGroup();
-$group->addPerson(new Student(name: 'Marko Markovic', years: 23));
-$group->addPerson(new Student('Ivan Ivic'));
-$group->printInfo();
-
-echo "\n";
 
 $group = new Group();
 $group->setName('OL-OBE_DEV_H-04/23');
@@ -24,22 +20,35 @@ $group->setName('OL-OBE_DEV_H-04/23');
 $marko = new Student(name: 'Marko Markovic', years: 23);
 $ivan = new Student('Ivan Ivic');
 $petar = new Student('Petar Peric');
+$eva = new Student('Eva Evic');
 
 $group->addStudent($marko);
 $group->addStudent($ivan);
 $group->addStudent($petar);
+$group->addStudent($eva);
 
 $chatGPT = new OnlineRoomTool('ChatGPT');
 
-$onlineRoom = new OnlineRoom($group);
+$onlineRoom = new OnlineRoom();
 $onlineRoom->connect($group->getTeacher());
 $onlineRoom->connect($group->getAdmin());
-$onlineRoom->connect($marko);
-$onlineRoom->connect($ivan);
-$onlineRoom->connect($petar);
-$onlineRoom->connect($chatGPT);
 
-echo "\n";
+foreach ($group->getStudents() as $student) {
+    try {
+        $onlineRoom->connect($student);
+    } catch (OnlineRoomCapacityException) {
+        echo "Student {$student->getName()} nije se uspio spojiti! Soba je puna! \n";
+        continue;
+    } catch (AccessDeniedException) {
+        echo "Student {$student->getName()} nema pravo pristupa! \n";
+        continue;
+    } finally {
+        echo "Broj spojenih sudionika: {$onlineRoom->getNumberOfParticipants()} \n";
+    }
+}
 
-$car = new Car();
-$car->honk();
+try {
+    $onlineRoom->connect($chatGPT);
+} catch (Exception $e) {
+    echo "Nije se uspio spojiti alat {$chatGPT->getName()}! \n";
+}
