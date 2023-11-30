@@ -1,11 +1,11 @@
 <?php
 
-namespace College;
+namespace App\College;
 
-use College\Admin;
-use College\Student;
-use College\Teacher;
-use Common\Person;
+use App\College\Admin;
+use App\College\Student;
+use App\College\Teacher;
+use App\Common\Person;
 
 class Group
 {

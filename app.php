@@ -2,28 +2,14 @@
 
 namespace App;
 
-use College\Group;
-use College\OnlineRoom;
-use College\OnlineRoomTool;
-use College\Student;
-use Common\Group as CommonGroup;
+use App\Common\Car;
+use App\College\Group;
+use App\College\OnlineRoom;
+use App\College\OnlineRoomTool;
+use App\College\Student;
+use App\Common\Group as CommonGroup;
 
-require_once 'College/OnlineRoomConnectable.php';
-require_once 'Common/Person.php';
-require_once 'Common/Group.php';
-require_once 'College/Admin.php';
-require_once 'College/Group.php';
-require_once 'College/Teacher.php';
-require_once 'College/OnlineRoom.php';
-require_once 'College/OnlineRoomTool.php';
-require_once 'College/Student.php';
-
-function strlen(string $string): int
-{
-    return 5;
-}
-
-echo \strlen('abc'), "\n";
+require __DIR__ . '/vendor/autoload.php';
 
 $group = new CommonGroup();
 $group->addPerson(new Student(name: 'Marko Markovic', years: 23));
@@ -52,3 +38,8 @@ $onlineRoom->connect($marko);
 $onlineRoom->connect($ivan);
 $onlineRoom->connect($petar);
 $onlineRoom->connect($chatGPT);
+
+echo "\n";
+
+$car = new Car();
+$car->honk();

@@ -1,8 +1,8 @@
 <?php
 
-namespace College;
+namespace App\College;
 
-use Common\Person;
+use App\Common\Person;
 
 class Teacher extends Person
 {

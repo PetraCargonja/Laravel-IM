@@ -1,6 +1,6 @@
 <?php
 
-namespace College;
+namespace App\College;
 
 class OnlineRoom
 {

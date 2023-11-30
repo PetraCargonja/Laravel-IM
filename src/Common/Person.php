@@ -1,8 +1,8 @@
 <?php
 
-namespace Common;
+namespace App\Common;
 
-use College\OnlineRoomConnectable;
+use App\College\OnlineRoomConnectable;
 
 abstract class Person implements OnlineRoomConnectable
 {
