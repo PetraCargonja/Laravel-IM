@@ -6,26 +6,28 @@ use App\College\Exception\AccessDeniedException;
 use App\College\Exception\OnlineRoomCapacityException;
 use App\College\Group;
 use App\College\OnlineRoom;
-use App\College\OnlineRoomTool;
-use App\College\Student;
+use App\College\OnlineRoomParticipantFactory;
+use App\College\ParticipantType;
 use Exception;
 
 require __DIR__ . '/vendor/autoload.php';
 
+$participantFactory = new OnlineRoomParticipantFactory();
+
 $group = new Group();
 $group->setName('OL-OBE_DEV_H-04/23');
 
-$marko = new Student(name: 'Marko Markovic', years: 23);
-$ivan = new Student('Ivan Ivic');
-$petar = new Student('Petar Peric');
-$eva = new Student('Eva Evic');
+$marko = $participantFactory->createParticipant(ParticipantType::Student, 'Marko Maric', 'Moj opis');
+$ivan = $participantFactory->createParticipant(ParticipantType::Student, 'Ivan Ivic');
+$petar = $participantFactory->createParticipant(ParticipantType::Student, 'Petar Peric');
+$eva = $participantFactory->createParticipant(ParticipantType::Student, 'Eva Evic');
 
 $group->addStudent($marko);
 $group->addStudent($ivan);
 $group->addStudent($petar);
 $group->addStudent($eva);
 
-$chatGPT = new OnlineRoomTool('ChatGPT');
+$chatGPT = $participantFactory->createParticipant(ParticipantType::Tool, 'Chat GPT');
 
 $onlineRoom = OnlineRoom::getInstance();
 $onlineRoom->connect($group->getTeacher());

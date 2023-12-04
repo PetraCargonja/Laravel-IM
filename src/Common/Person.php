@@ -8,7 +8,8 @@ abstract class Person implements OnlineRoomConnectable
 {
     public function __construct(
         protected string $name, 
-        protected int $years = 18
+        protected string $description,
+        protected int $years = 18,
         ) 
     {}
 
@@ -23,4 +24,9 @@ abstract class Person implements OnlineRoomConnectable
     }
 
     abstract public function sayHello(): void;
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
 }

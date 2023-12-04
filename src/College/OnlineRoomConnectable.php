@@ -15,4 +15,6 @@ interface OnlineRoomConnectable
     public function getRole(): string;
 
     public function getName(): string;
+
+    public function getDescription(): string;
 }

@@ -16,4 +16,9 @@ class OnlineRoomTool implements OnlineRoomConnectable
     {
         return $this->name;
     }
+
+    public function getDescription(): string
+    {
+        return 'Ja sam alat za online sobu';
+    }
 }
