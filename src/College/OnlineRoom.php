@@ -6,11 +6,25 @@ use App\College\Exception\OnlineRoomCapacityException;
 
 class OnlineRoom
 {
-    private const MAX_NUMBER_OF_PARTICIPANTS = 5;
+    private static ?OnlineRoom $instance = null;
 
-    private const ALLOWED_ROLES = ['admin', 'teacher', 'student'];
+    private const MAX_NUMBER_OF_PARTICIPANTS = 25;
+
+    private const ALLOWED_ROLES = ['admin', 'teacher', 'student', 'tool'];
 
     private $participants = [];
+
+    private function __construct()
+    {}
+
+    public static function getInstance(): OnlineRoom
+    {
+        if (self::$instance === null) {
+            self::$instance = new OnlineRoom();
+        }
+
+        return self::$instance;
+    }
 
     public function connect(OnlineRoomConnectable $onlineRoomConnectable)
     {

@@ -4,13 +4,11 @@ namespace App;
 
 use App\College\Exception\AccessDeniedException;
 use App\College\Exception\OnlineRoomCapacityException;
-use App\Common\Car;
 use App\College\Group;
 use App\College\OnlineRoom;
 use App\College\OnlineRoomTool;
 use App\College\Student;
 use Exception;
-use RuntimeException;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -29,7 +27,7 @@ $group->addStudent($eva);
 
 $chatGPT = new OnlineRoomTool('ChatGPT');
 
-$onlineRoom = new OnlineRoom();
+$onlineRoom = OnlineRoom::getInstance();
 $onlineRoom->connect($group->getTeacher());
 $onlineRoom->connect($group->getAdmin());
 
@@ -42,8 +40,6 @@ foreach ($group->getStudents() as $student) {
     } catch (AccessDeniedException) {
         echo "Student {$student->getName()} nema pravo pristupa! \n";
         continue;
-    } finally {
-        echo "Broj spojenih sudionika: {$onlineRoom->getNumberOfParticipants()} \n";
     }
 }
 
@@ -52,3 +48,8 @@ try {
 } catch (Exception $e) {
     echo "Nije se uspio spojiti alat {$chatGPT->getName()}! \n";
 }
+
+$onlineRoom = OnlineRoom::getInstance();
+
+echo "\n\n";
+echo "Broj spojenih sudionika: {$onlineRoom->getNumberOfParticipants()} \n";
