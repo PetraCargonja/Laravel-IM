@@ -3,7 +3,6 @@
 namespace App;
 
 use App\College\Group;
-use App\College\NoticeBoard;
 use App\College\OnlineRoomParticipantFactory;
 
 require __DIR__ . '/vendor/autoload.php';
@@ -23,15 +22,6 @@ $group->addStudent($ivan);
 $group->addStudent($petar);
 $group->addStudent($eva);
 
-$noticeBoard = new NoticeBoard();
-
-$noticeBoard->attach($marko);
-$noticeBoard->attach($ivan);
-$noticeBoard->attach($petar);
-$noticeBoard->attach($eva);
-
-$noticeBoard->addNotice('Nastava iduci tjedan je otkazana.');
-
-$noticeBoard->detach($eva);
-$noticeBoard->addNotice('Molim vas da se prijavite na e-learning sustav.');
-$noticeBoard->addNotice('Sretni blagdani');
+foreach ($group as $groupMember) {
+    $groupMember->sayHello();
+}

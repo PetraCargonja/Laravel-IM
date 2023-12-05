@@ -6,19 +6,53 @@ use App\College\Admin;
 use App\College\Student;
 use App\College\Teacher;
 use App\Common\Person;
+use Iterator;
 
-class Group
+class Group implements Iterator
 {
     private const MAX_NUMBER_OF_STUDENTS = 5;
 
     private string $name;
+
     private array $students = [];
+
+    private array $members = [];
+
+    private int $position = 0;
 
     public function __construct(
         private Teacher $teacher = new Teacher('Ana Anic', 28, 'Senior Developer'),
         private Admin $admin = new Admin('Admin98 98', 30)
         )
-    {}
+    {
+        $this->members[] = $this->teacher;
+        $this->members[] = $this->admin;
+    }
+    
+    public function current() 
+    {
+        return $this->members[$this->position];
+    }
+
+    public function next() : void
+    {
+        $this->position++;
+    }
+
+    public function key() 
+    {
+        return $this->position;
+    }
+
+    public function valid() : bool
+    {
+        return isset($this->members[$this->position]);
+    }
+
+    public function rewind() : void
+    {
+        $this->position = 0;
+    }
 
     public function printInfo() 
     {
@@ -64,6 +98,7 @@ class Group
         }
 
         $this->students[] = $student;
+        $this->members[] = $student;
     }
 
     public function getNumberOfStudents() 
