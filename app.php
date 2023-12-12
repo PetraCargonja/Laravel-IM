@@ -1,27 +1,18 @@
 <?php
 
-namespace App;
-
-use App\College\Group;
-use App\College\OnlineRoomParticipantFactory;
-
 require __DIR__ . '/vendor/autoload.php';
+$databaseConfig = require __DIR__ . '/config/database.php';
 
-$participantFactory = new OnlineRoomParticipantFactory();
-
-$group = new Group();
-$group->setName('OL-OBE_DEV_H-04/23');
-
-$marko = $participantFactory->createStudent('Marko Maric', 'Moj opis');
-$ivan = $participantFactory->createStudent('Ivan Ivic');
-$petar = $participantFactory->createStudent('Petar Peric');
-$eva = $participantFactory->createStudent('Eva Evic');
-
-$group->addStudent($marko);
-$group->addStudent($ivan);
-$group->addStudent($petar);
-$group->addStudent($eva);
-
-foreach ($group as $groupMember) {
-    $groupMember->sayHello();
+try {
+    $connection = new mysqli(
+        username: $databaseConfig['username'], 
+        password: $databaseConfig['password'], 
+        database: $databaseConfig['database']
+    );
+} catch (mysqli_sql_exception) {
+    echo 'Connection failed!', PHP_EOL;
+    return;
 }
+
+echo 'Connected!', PHP_EOL;
+echo 'Server info: ', $connection->server_info, PHP_EOL;
