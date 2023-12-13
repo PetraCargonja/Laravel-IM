@@ -6,26 +6,23 @@ require __DIR__ . '/vendor/autoload.php';
 $databaseConfig = require __DIR__ . '/config/database.php';
 
 try {
-    $connection = new mysqli(
-        username: $databaseConfig['username'], 
-        password: $databaseConfig['password'], 
-        database: $databaseConfig['database']
+    $connection = new PDO(
+        'mysql:dbname=' . $databaseConfig['database'],
+        $databaseConfig['username'], 
+        $databaseConfig['password'],
     );
-} catch (mysqli_sql_exception) {
+} catch (Throwable $th) {
     echo 'Connection failed!', PHP_EOL;
     return;
 }
 
-$connection->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, true);
-
-
-// transaction in mysqli
-$connection->begin_transaction();
+// transaction in PDO
+$connection->beginTransaction();
 
 try {
     $nextId = $connection
         ->query('SELECT MAX(id_zanr) + 1 AS next_id FROM zanr')
-        ->fetch_assoc()['next_id'];
+        ->fetchColumn();
 
     $genres = ['Comedy', 'Drama', 'Action', 'Horror', 'Thriller', 'Sci-Fi', 'Documentary', 'Romance', 'Western', 'Animation', 'Musical', 'War', 'Crime', 'Mystery', 'Adventure', 'Fantasy', 'Family', 'History', 'Sport', 'Music', 'Biography', 'Short', 'Film-Noir', 'Talk-Show', 'News', 'Reality-TV', 'Game-Show', 'Adult', 'Lifestyle', 'Experimental', 'Erotica', 'Commercial', 'Test', 'Instructional', 'Industrial', 'Educational', 'Avant-Garde', 'Foreign', 'Uncategorized', 'Other', 'None', 'Unknown', 'Unspecified', 'Unsorted'];
 
@@ -38,24 +35,31 @@ try {
 
     // insert using prepared statement
     $statement = $connection->prepare(
-        "INSERT INTO zanr (id_zanr, naziv) VALUES (?, ?)"
+        "INSERT INTO zanr (id_zanr, naziv) VALUES (:id, :naziv)"
     );
 
-    $statement->bind_param('is', $nextId, $genreToInsert);
-    $statement->execute();
+    $statement->execute([
+        ':id' => $nextId,
+        ':naziv' => $genreToInsert,
+    ]);
 } catch (\Throwable $th) {
-    $connection->rollback();
+    $connection->rollBack();
     return;
 }
 
 $connection->commit();
 
-// $result = $connection->query('SELECT * FROM zanr');
+// $statement = $connection->query('SELECT * FROM zanr');
+// $statement->setFetchMode(PDO::FETCH_CLASS, Genre::class);
 
-// while ($genre = $result->fetch_object(Genre::class)) {
+// while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+//     var_dump($row);
+// }
+
+// while ($genre = $statement->fetch()) {
 //     echo $genre->getInfo(), PHP_EOL;
 // }
 
-// foreach ($result->fetch_object() as $genre) {
+// foreach ($result->fetchAll() as $genre) {
 //     echo "ID: {$genre['id_zanr']}, name: {$genre['naziv']}", PHP_EOL;
 // }
