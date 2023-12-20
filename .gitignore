@@ -2,3 +2,5 @@
 uploads/
 vendor/
 config/
+coverage/
+.phpunit.result.cache

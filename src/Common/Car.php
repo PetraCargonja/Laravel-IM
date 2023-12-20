@@ -4,8 +4,15 @@ namespace App\Common;
 
 class Car
 {
-    public function honk(): void
+    public function honk(): string
     {
-        echo "BEEP BEEP\n";
+        return "BEEP BEEP\n";
+    }
+
+    public function drive(): string
+    {
+        $drive = "Car is moving\n";
+
+        return $drive;
     }
 }
