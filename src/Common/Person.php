@@ -23,6 +23,11 @@ abstract class Person implements OnlineRoomConnectable
         return $this->years;
     }
 
+    public function getRole(): string
+    {
+        return 'person';
+    }
+
     abstract public function sayHello(): void;
 
     public function getDescription(): string
