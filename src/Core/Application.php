@@ -17,7 +17,7 @@ class Application
         } catch (RouteNotFoundException) {
             http_response_code(404);
             $response = "404 - Page not found!";
-        } catch (\Throwable) {
+        } catch (\Throwable $th) {
             http_response_code(500);
             $response = "500 - Internal server error!";
         }

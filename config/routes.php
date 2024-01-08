@@ -3,9 +3,12 @@
 use App\Controllers\GenreController;
 use App\Controllers\MovieController;
 use App\Core\Router;
+use App\Models\Movie;
 
 Router::get('/movies', function () {
-    return "Movies";
+    $movies = new Movie();
+
+    return $movies->findAll();
 });
 
 Router::get('/movies/show', [MovieController::class, 'show']);
