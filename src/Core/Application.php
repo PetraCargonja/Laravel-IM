@@ -22,6 +22,11 @@ class Application
             $response = "500 - Internal server error!";
         }
 
+        if (is_array($response)) {
+            header('Content-Type: application/json');
+            $response = json_encode($response);
+        }
+
         echo $response;
     }
 }
