@@ -7,7 +7,7 @@ abstract class Model
 {
     public function findAll()
     {
-        $connection = new \PDO("mysql:dbname=videoteka", "test", "dummy");
+        $connection = new \PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);
 
         $statement = $connection->query(
             "SELECT * FROM {$this->getTableName()}"

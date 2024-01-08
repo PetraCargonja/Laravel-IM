@@ -3,11 +3,24 @@
 namespace App\Core;
 
 use App\Core\Exception\RouteNotFoundException;
+use Symfony\Component\Dotenv\Dotenv;
 
 class Application
 {
     public function __construct(private Router $router = new Router())
     {
+    }
+
+    public function init()
+    {
+        require_once ROOT . '/config/routes.php';
+
+        $dotenv = new Dotenv();
+        $dotenv->load(ROOT . '/.env');
+
+        define('DB_DSN', $_ENV['DB_DSN']);
+        define('DB_USERNAME', $_ENV['DB_USERNAME']);
+        define('DB_PASSWORD', $_ENV['DB_PASSWORD']);
     }
 
     public function run()
