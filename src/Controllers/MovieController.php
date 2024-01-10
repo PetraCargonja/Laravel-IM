@@ -2,10 +2,15 @@
 
 namespace App\Controllers;
 
-class MovieController
+use App\Core\Controller;
+
+class MovieController extends Controller
 {
     public function show()
     {
-        return "Movies show";
+        return $this->render('show', [
+            'pageName' => $_GET['pageName'] ?? 'Filmovi',
+            'nameTitle' => 'Ime filma',
+        ]);
     }
 }

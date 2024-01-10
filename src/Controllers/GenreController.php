@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Core\Controller;
 use App\Models\Genre;
 
-class GenreController
+class GenreController extends Controller
 {
     public function index()
     {
@@ -15,6 +16,9 @@ class GenreController
 
     public function show()
     {
-        return "Genres show";
+        return $this->render('show', [
+            'pageName' => $_GET['pageName'] ?? 'Žanrovi',
+            'nameTitle' => 'Naziv žanra',
+        ]);
     }
 }

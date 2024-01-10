@@ -15,7 +15,7 @@ class Router
 
     public function route()
     {
-        $route = $_SERVER['REQUEST_URI'];
+        $route = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $method = strtolower($_SERVER['REQUEST_METHOD']);
 
         $callback = self::$routes[$method][$route] ?? null;
