@@ -1,5 +1,7 @@
 <?php
 
+use App\DatabaseConnection;
+use App\MovieRepository;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/movies', function(MovieRepository $movieRepository) {
+    dd($movieRepository);
+
+    return $movieRepository->getAll();
+});
+
+Route::get('/movies/show', function(MovieRepository $movieRepository) {
+    dd($movieRepository);
+
+    return $movieRepository->getAll();
 });
