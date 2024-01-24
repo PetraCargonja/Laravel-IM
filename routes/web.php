@@ -1,7 +1,7 @@
 <?php
 
-use App\DatabaseConnection;
-use App\MovieRepository;
+use App\Http\Middleware\LogMessageMiddleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,18 +15,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
 
-Route::get('/movies', function(MovieRepository $movieRepository) {
-    dd($movieRepository);
+Route::redirect('/home', '/');
 
-    return $movieRepository->getAll();
-});
-
-Route::get('/movies/show', function(MovieRepository $movieRepository) {
-    dd($movieRepository);
-
-    return $movieRepository->getAll();
+Route::middleware(LogMessageMiddleware::class)
+->name('admin.movies.')
+->prefix('admin')
+->group(function() {
+    Route::get('/movies', function(Request $request) {
+        dd($request->route());
+    })->name('index');
+    
+    Route::get('/movies/{id}', function(int $id) {
+        dd($id);
+    })->whereNumber('id');
+    
+    Route::view('/movies/create', 'movies.create');
+    
+    Route::post('/movies/store', function() {
+        // logika za spremanje
+    
+        return redirect()->route('admin.movies.index');
+    });
 });
