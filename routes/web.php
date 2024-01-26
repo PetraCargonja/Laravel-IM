@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureTokenIsValid;
 use App\Http\Middleware\LogMessageMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,17 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')
+    ->name('home');
 
 Route::redirect('/home', '/');
 
-Route::middleware(LogMessageMiddleware::class)
+Route::middleware([LogMessageMiddleware::class, 'user'])
 ->name('admin.movies.')
 ->prefix('admin')
 ->group(function() {
     Route::get('/movies', function(Request $request) {
-        dd($request->route());
-    })->name('index');
+        return [
+            'Shawshank Redemption', 'The Godfather', 'The Dark Knight'
+        ];
+    })
+    ->name('index')
+    ->withoutMiddleware('auth.token');
     
     Route::get('/movies/{id}', function(int $id) {
         dd($id);
