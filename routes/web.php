@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Middleware\EnsureTokenIsValid;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\LogMessageMiddleware;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,27 +24,17 @@ Route::view('/', 'welcome')
 
 Route::redirect('/home', '/');
 
-Route::middleware([LogMessageMiddleware::class, 'user'])
-->name('admin.movies.')
-->prefix('admin')
-->group(function() {
-    Route::get('/movies', function(Request $request) {
-        return [
-            'Shawshank Redemption', 'The Godfather', 'The Dark Knight'
-        ];
-    })
-    ->name('index')
-    ->withoutMiddleware('auth.token');
-    
-    Route::get('/movies/{id}', function(int $id) {
-        dd($id);
-    })->whereNumber('id');
-    
-    Route::view('/movies/create', 'movies.create');
-    
-    Route::post('/movies/store', function() {
-        // logika za spremanje
-    
-        return redirect()->route('admin.movies.index');
-    });
-});
+Route::resource('movies', MovieController::class)
+    ->except('edit', 'update', 'destroy')
+    ->middleware(LogMessageMiddleware::class);
+
+Route::get('/genres', GenreController::class);
+
+Route::get('/members/account', [MemberController::class, 'account'])
+    ->name('members.account');
+
+Route::resource('members', MemberController::class);
+
+Route::apiResource('media', MediaController::class);
+
+Route::singleton('profile', ProfileController::class);
