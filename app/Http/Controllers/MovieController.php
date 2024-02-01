@@ -9,19 +9,20 @@ class MovieController extends Controller
 {
     public function __construct(private DatabaseConnectionInterface $connection)
     {
-        $this->middleware('admin')->except('index');
+        $this->middleware('admin');
     }
 
     public function index(Request $request)
     {
+        dd($request->cookie('laravel_session'));
         return [
             'Shawshank Redemption', 'The Godfather', 'The Dark Knight'
         ];
     }
 
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-        dd($this->connection);
+        dd($request);
     }
 
     public function create()
@@ -29,9 +30,13 @@ class MovieController extends Controller
         return view('movies.create');
     }
 
-    public function store() 
+    public function store(Request $request) 
     {
+        dd($request->input('name'));
         // logika za spremanje
+        if ($request->string('name')->length() < 3) {
+            return redirect()->back()->withInput();
+        }
     
         return redirect()->route('movies.index');
     }

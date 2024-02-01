@@ -15,6 +15,10 @@ class EnsureTokenIsValid
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
+        if ($request->isMethod('GET')) {
+            return $next($request);
+        }
+
         $secretToken = $role === 'admin' ? 'token123' : 'token456';
 
         if ($request->query('token') !== $secretToken) {
