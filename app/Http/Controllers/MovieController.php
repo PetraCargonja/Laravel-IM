@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DatabaseConnectionInterface;
+use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class MovieController extends Controller
 {
@@ -14,15 +16,18 @@ class MovieController extends Controller
 
     public function index(Request $request)
     {
-        dd($request->cookie('laravel_session'));
-        return [
-            'Shawshank Redemption', 'The Godfather', 'The Dark Knight'
-        ];
+        return response()
+            ->json(['Vlak u snijegu', 'Godfather', 'Bladerunner'])
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+                'X-Header-One' => 'Header Value'
+            ])
+            ->withoutCookie('name');
     }
 
     public function show(Request $request, int $id)
     {
-        dd($request);
+        return redirect()->action([MovieController::class, 'index']);
     }
 
     public function create()
@@ -30,13 +35,11 @@ class MovieController extends Controller
         return view('movies.create');
     }
 
-    public function store(Request $request) 
+    public function store(StoreMovieRequest $request) 
     {
-        dd($request->input('name'));
-        // logika za spremanje
-        if ($request->string('name')->length() < 3) {
-            return redirect()->back()->withInput();
-        }
+        $validated = $request->validated();
+
+        dd($validated);
     
         return redirect()->route('movies.index');
     }
