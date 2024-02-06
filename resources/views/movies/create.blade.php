@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja videoteka</title>
+    <title>Popis filmova</title>
 </head>
 <body>
     <form action="/movies?token=token123" method="post">

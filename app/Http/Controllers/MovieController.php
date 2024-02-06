@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DatabaseConnectionInterface;
 use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\View;
 
 class MovieController extends Controller
 {
@@ -16,13 +16,16 @@ class MovieController extends Controller
 
     public function index(Request $request)
     {
-        return response()
-            ->json(['Vlak u snijegu', 'Godfather', 'Bladerunner'])
-            ->withHeaders([
-                'Content-Type' => 'application/json',
-                'X-Header-One' => 'Header Value'
-            ])
-            ->withoutCookie('name');
+        $view = View::first(['movies.admin.index', 'movies.index']);
+        $title = 'Popis filmova';
+
+        if (View::exists('movies.admin.index')) {
+            $title = 'Admin - ' . $title;
+        }
+
+        return $view
+            ->with('title', $title)
+            ->with('movies', ['Vlak u snijegu', 'Godzilla', 'Titanic']);
     }
 
     public function show(Request $request, int $id)
