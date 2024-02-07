@@ -16,16 +16,9 @@ class MovieController extends Controller
 
     public function index(Request $request)
     {
-        $view = View::first(['movies.admin.index', 'movies.index']);
-        $title = 'Popis filmova';
-
-        if (View::exists('movies.admin.index')) {
-            $title = 'Admin - ' . $title;
-        }
-
-        return $view
-            ->with('title', $title)
-            ->with('movies', ['Vlak u snijegu', 'Godzilla', 'Titanic']);
+        return view('movies.index')
+            ->with('title', 'Popis filmova')
+            ->with('movies', ['<b>Vlak u snijegu</b>', 'Godzilla', 'Titanic']);
     }
 
     public function show(Request $request, int $id)
