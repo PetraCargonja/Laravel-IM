@@ -1,10 +1,9 @@
-@extends('layout.app')
+<x-app>
+    <x-movie-list :$movies/>
 
-@section('content')
-    <ul>
-        @foreach ($movies as $movie)
-            <li>{{!! $movie !!}}</li>
-        @endforeach
-    </ul>
-    Random broj ovo requesta je: @rand
-@endsection
+    <x-slot:footer>
+        <p class="text-center text-gray-500 dark:text-gray-400 text-sm mt-4 mb-4">
+            &copy; Backend Developer 2024. Algebra
+        </p>
+    </x-slot:footer>
+</x-app>

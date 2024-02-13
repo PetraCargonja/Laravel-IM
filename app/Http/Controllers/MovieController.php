@@ -18,7 +18,9 @@ class MovieController extends Controller
     {
         return view('movies.index')
             ->with('title', 'Popis filmova')
-            ->with('movies', ['<b>Vlak u snijegu</b>', 'Godzilla', 'Titanic']);
+            ->with('movies', ['Vlak u snijegu', 'Godfather', 'Pulp Fiction', 'The Shawshank Redemption', 'The Dark Knight'])
+            ->with('rand', rand(1, 10))
+            ->with('i', 1);
     }
 
     public function show(Request $request, int $id)
