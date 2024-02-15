@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DatabaseConnectionInterface;
 use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
 
 class MovieController extends Controller
 {
@@ -18,9 +18,7 @@ class MovieController extends Controller
     {
         return view('movies.index')
             ->with('title', 'Popis filmova')
-            ->with('movies', ['Vlak u snijegu', 'Godfather', 'Pulp Fiction', 'The Shawshank Redemption', 'The Dark Knight'])
-            ->with('rand', rand(1, 10))
-            ->with('i', 1);
+            ->with('movies', ['Vlak u snijegu', 'Godfather', 'Pulp Fiction', 'The Shawshank Redemption', 'The Dark Knight']);
     }
 
     public function show(Request $request, int $id)
@@ -30,6 +28,8 @@ class MovieController extends Controller
 
     public function create()
     {
+        Gate::authorize('admin');
+
         return view('movies.create');
     }
 
