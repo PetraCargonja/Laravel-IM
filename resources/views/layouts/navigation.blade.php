@@ -18,11 +18,9 @@
                     <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies.index')">
                         {{ __('Filmovi') }}
                     </x-nav-link>
-                    @can('admin')
                     <x-nav-link :href="route('movies.create')" :active="request()->routeIs('movies.create')">
                         {{ __('Novi film') }}
                     </x-nav-link>
-                    @endcan
                 </div>
             </div>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DatabaseConnectionInterface;
 use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class MovieController extends Controller
@@ -14,22 +15,33 @@ class MovieController extends Controller
         $this->middleware('admin');
     }
 
-    public function index(Request $request)
+    public function index()
     {
+        $movies = DB::table('film')->get();
+
         return view('movies.index')
             ->with('title', 'Popis filmova')
-            ->with('movies', ['Vlak u snijegu', 'Godfather', 'Pulp Fiction', 'The Shawshank Redemption', 'The Dark Knight']);
+            ->with('movies', $movies);
     }
 
-    public function show(Request $request, int $id)
+    public function show(int $id)
     {
-        return redirect()->action([MovieController::class, 'index']);
+        $movie = DB::table('film')
+        ->leftJoin('zanr', 'film.id_zanr', '=', 'zanr.id_zanr')
+        ->where('id_film', $id)
+        ->select('film.*', 'zanr.naziv as genreName')
+        ->first();
+
+        if ($movie === null) {
+            abort(404);
+        }
+
+        return view('movies.show')
+            ->with('movie', $movie);
     }
 
     public function create()
     {
-        Gate::authorize('admin');
-
         return view('movies.create');
     }
 
@@ -37,7 +49,12 @@ class MovieController extends Controller
     {
         $validated = $request->validated();
 
-        dd($validated);
+        if (!DB::table('film')->insert([
+            'naziv' => $validated['name'],
+            'godina' => $validated['year'],
+        ])) {
+            abort(500);
+        }
     
         return redirect()->route('movies.index');
     }
