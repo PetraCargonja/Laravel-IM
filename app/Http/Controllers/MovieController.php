@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DatabaseConnectionInterface;
 use App\Http\Requests\StoreMovieRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+use App\Models\Genre;
+use App\Models\Movie;
 
 class MovieController extends Controller
 {
-    public function __construct(private DatabaseConnectionInterface $connection)
-    {
-        $this->middleware('admin');
-    }
-
     public function index()
     {
-        $movies = DB::table('film')->get();
+        $movies = Movie::all();
 
         return view('movies.index')
             ->with('title', 'Popis filmova')
@@ -26,15 +19,7 @@ class MovieController extends Controller
 
     public function show(int $id)
     {
-        $movie = DB::table('film')
-        ->leftJoin('zanr', 'film.id_zanr', '=', 'zanr.id_zanr')
-        ->where('id_film', $id)
-        ->select('film.*', 'zanr.naziv as genreName')
-        ->first();
-
-        if ($movie === null) {
-            abort(404);
-        }
+        $movie = Movie::findOrFail($id);
 
         return view('movies.show')
             ->with('movie', $movie);
@@ -42,20 +27,28 @@ class MovieController extends Controller
 
     public function create()
     {
-        return view('movies.create');
+        return view('movies.create', [
+            'genres' => Genre::all(),
+        ]);
     }
 
     public function store(StoreMovieRequest $request) 
     {
         $validated = $request->validated();
 
-        if (!DB::table('film')->insert([
-            'naziv' => $validated['name'],
-            'godina' => $validated['year'],
-        ])) {
-            abort(500);
-        }
+        $movie = new Movie();
+        $movie->naziv = $validated['name'];
+        $movie->godina = $validated['year'];
+        $movie->id_zanr = $validated['genre'];
+        $movie->save();
     
+        return redirect()->route('movies.index');
+    }
+
+    public function destroy(int $id)
+    {
+        Movie::destroy($id);
+
         return redirect()->route('movies.index');
     }
 }

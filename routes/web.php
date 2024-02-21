@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('movies', MovieController::class)
-    ->except('edit', 'update', 'destroy')
+    ->except('edit', 'update')
     ->middleware(LogMessageMiddleware::class);
 
     Route::get('/genres', GenreController::class);

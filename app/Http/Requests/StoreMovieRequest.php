@@ -26,7 +26,8 @@ class StoreMovieRequest extends FormRequest
         return [
             'name' => ['required', 'max:255', 'min:3'],
             'hitFilm' => 'boolean',
-            'year' => 'required|integer|min:1900|max:2024'
+            'year' => 'required|integer|min:1900|max:2024',
+            'genre' => ['nullable', 'exists:zanr,id_zanr'],
         ];
     }
 
