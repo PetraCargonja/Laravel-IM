@@ -33,14 +33,5 @@ jobs:
     - name: Generate key
       run: php artisan key:generate --env=testing
 
-    - name: Cache Laravel Config
-      run: php artisan config:cache
-
-    - name: Cache Laravel Routes
-      run: php artisan route:cache
-
-    - name: Cache Laravel Views
-      run: php artisan view:cache
-
     - name: Run PHPUnit Tests
       run: php artisan test
