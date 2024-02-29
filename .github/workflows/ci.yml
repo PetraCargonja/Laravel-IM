@@ -1,0 +1,46 @@
+name: Kontinuirana integracija
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: dummy
+          MYSQL_DATABASE: app
+        ports:
+          - 3306:3306
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Generate key
+      run: php artisan key:generate
+
+    - name: Cache Laravel Config
+      run: php artisan config:cache
+
+    - name: Cache Laravel Routes
+      run: php artisan route:cache
+
+    - name: Cache Laravel Views
+      run: php artisan view:cache
+
+    - name: Create MySQL Database
+      run: mysql -e 'CREATE DATABASE IF NOT EXISTS app;' -uroot -p$MYSQL_ROOT_PASSWORD -h127.0.0.1
+
+    - name: Run PHPUnit Tests
+      run: vendor/bin/phpunit
