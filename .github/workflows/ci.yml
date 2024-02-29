@@ -39,8 +39,5 @@ jobs:
     - name: Cache Laravel Views
       run: php artisan view:cache
 
-    - name: Create MySQL Database
-      run: mysql -e 'CREATE DATABASE IF NOT EXISTS app;' -uroot -p$MYSQL_ROOT_PASSWORD -h127.0.0.1
-
     - name: Run PHPUnit Tests
       run: vendor/bin/phpunit
