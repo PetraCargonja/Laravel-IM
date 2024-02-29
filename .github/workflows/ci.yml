@@ -27,14 +27,11 @@ jobs:
         php-version: '8.1'
         extensions: sqlite3
 
-    - name: Copy .env
-      run: cp .env.example .env
-
     - name: Install Dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Generate key
-      run: php artisan key:generate
+      run: php artisan key:generate --env=testing
 
     - name: Cache Laravel Config
       run: php artisan config:cache
