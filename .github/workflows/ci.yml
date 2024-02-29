@@ -33,5 +33,8 @@ jobs:
     - name: Generate key
       run: php artisan key:generate --env=testing
 
+    - name: Run npm install
+      run: npm install && npm run build
+
     - name: Run PHPUnit Tests
       run: php artisan test
