@@ -11,8 +11,8 @@ jobs:
         - name: Deploy to digitalocean server
           uses: appleboy/ssh-action@v1.0.3
           with:
-            host: ${{ secrets.SERVER_IP }}
-            username: ${{ secrets.USERNAME }}
+            host: ${{ vars.SERVER }}
+            username: ${{ vars.USERNAME }}
             password: ${{ secrets.PASSWORD }}
             script: |
                 cd /var/www/html/App/imandic
