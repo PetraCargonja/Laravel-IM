@@ -9,15 +9,6 @@ jobs:
   laravel-tests:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: dummy
-          MYSQL_DATABASE: app
-        ports:
-          - 3306:3306
-
     steps:
     - uses: actions/checkout@v2
 
