@@ -9,6 +9,7 @@ class MovieRepository
         return [
             'The Shawshank redemption',
             'The Godfather',
+            'The Dark Knight',
         ];
     }
 }
