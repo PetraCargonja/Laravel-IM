@@ -3,7 +3,7 @@ name: Kontinuirana integracija
 on:
   push:
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   laravel-tests:
