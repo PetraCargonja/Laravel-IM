@@ -24,6 +24,24 @@ class MovieControllerTest extends TestCase
         $response->assertSee('Naziv');
         $response->assertSee('Godina');
         $response->assertSee('Zanr');
+
+        // assert genres are inserted with migration
+        $response->assertSee('Akcija');
+        $response->assertSee('Avantura');
+        $response->assertSee('Biografija');
+        $response->assertSee('Dokumentarni');
+        $response->assertSee('Drama');
+        $response->assertSee('Fantazija');
+        $response->assertSee('Horor');
+        $response->assertSee('Komedija');
+        $response->assertSee('Krimi');
+        $response->assertSee('Misterija');
+        $response->assertSee('Mjuzikl');
+        $response->assertSee('Naučna fantastika');
+        $response->assertSee('Ratni');
+        $response->assertSee('Romansa');
+        $response->assertSee('Triler');
+        $response->assertSee('Vestern');
     }
 
     public function test_store(): void
